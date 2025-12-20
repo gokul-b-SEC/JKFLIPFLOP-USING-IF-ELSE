@@ -33,43 +33,46 @@ By using three variable K-Map, we can get the simplified expression for next sta
 The maximum possible groupings of adjacent ones are already shown in the figure. Therefore, the simplified expression for next state Qt+1t+1 is Q(t+1)=JQ(t)′+K′Q(t)Q(t+1)=JQ(t)′+K′Q(t)
 
 **Procedure**
-
-/* write all the steps invloved */
+```
+1. Define Inputs/Outputs: Inputs: J (Set), K (Reset), c1k (clock); Outputs: q, qbar (~q).
+2. Initialization: Set q = 0 and qbar = 1 at the start of the simulation.
+3. JK Flip-Flop Logic: On posedge c1k, compute q
+4. Complementary Output: Update qbar = ~q to maintain complementarity.
+5. Testbench: Simulate with combinations of J, K, and c1k to verify JK Flip-Flop functionality.
+```
 
 **PROGRAM**
-
-/* Program for flipflops and verify its truth table in quartus using Verilog programming. Developed by: RegisterNumber:25008644
-
+```
+/* Program for flipflops and verify its truth table in quartus using Verilog programming. 
+Developed by:GOKUL B
+RegisterNumber: 25008644
 */
-
-module jk_ff (j, k, clk, rst, q);
-input j, k, clk, rst;
+```
+```
+module exp7(J,K,c1k,q,qbar);
+input J,K,c1k;
 output reg q;
-always @(posedge clk or posedge rst) begin
-if (rst)
-q <= 0; // Reset the flip-flop
-else if (j == 0 && k == 0)
-q <= q; // No change
-else if (j == 0 && k == 1)
-q <= 0; // Reset
-else if (j == 1 && k == 0)
-q <= 1; // Set
-else if (j == 1 && k == 1)
-q <= ~q; // Toggle
+output reg qbar;
+initial q=0;
+initial qbar=1;
+always @(posedge c1k)
+begin
+q=((J&(~q)))|((~K)&q);
+qbar=~q;
 end
 endmodule
 
-
-<img width="802" height="541" alt="Screenshot 2025-12-18 174027" src="https://github.com/user-attachments/assets/daa54347-7910-4de1-834d-8bd2042c5ce8" />
-
+```
 
 **RTL LOGIC FOR FLIPFLOPS**
 
-<img width="698" height="393" alt="Screenshot 2025-12-18 174047" src="https://github.com/user-attachments/assets/be9b3e23-bc24-4c72-8794-281006df2cae" />
+<img width="1269" height="780" alt="image" src="https://github.com/user-attachments/assets/a911c670-528a-471e-8eeb-bb84c241326f" />
+
 
 
 **TIMING DIGRAMS FOR FLIP FLOPS**
 
-<img width="1919" height="329" alt="Screenshot 2025-12-18 174333" src="https://github.com/user-attachments/assets/b488b8c4-7880-4a10-8eaf-7341b15d2554" />
+<img width="1921" height="1201" alt="image" src="https://github.com/user-attachments/assets/c69cb280-b206-4e90-8c15-a36ade80364f" />
 
 **RESULTS**
+Thus the JK flipflop is implemented and verified.
